@@ -1,0 +1,7 @@
+{
+  "name": "Hobbs Junk Removal",
+  "description": "Modern landing page for Hobbs Junk Removal & Hauling LLC featuring AI-powered quote estimation.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
