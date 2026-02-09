@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sofa, Construction, Recycle, Tv, Trash2, Warehouse } from 'lucide-react';
+import { Sofa, Construction, Recycle, Tv, Trash2, Warehouse, Hammer } from 'lucide-react';
 import { ServiceItem } from '../types';
 
 const services: ServiceItem[] = [
@@ -16,22 +16,28 @@ const services: ServiceItem[] = [
     icon: <Construction size={32} />
   },
   {
+    id: 'demolition',
+    title: 'Small Demolition',
+    description: 'Teardown and removal of sheds, playsets, patios, and small structures.',
+    icon: <Hammer size={32} />
+  },
+  {
     id: 'appliances',
     title: 'Appliance Recycling',
     description: 'Safe removal of refrigerators, washers, dryers, and old stoves.',
     icon: <Recycle size={32} />
   },
   {
-    id: 'electronics',
-    title: 'E-Waste Disposal',
-    description: 'Responsible disposal of TVs, computers, monitors, and printers.',
-    icon: <Tv size={32} />
-  },
-  {
     id: 'cleanouts',
     title: 'Estate Cleanouts',
     description: 'Full house, garage, attic, and basement cleanout services.',
     icon: <Warehouse size={32} />
+  },
+  {
+    id: 'electronics',
+    title: 'E-Waste Disposal',
+    description: 'Responsible disposal of TVs, computers, monitors, and printers.',
+    icon: <Tv size={32} />
   },
   {
     id: 'general',

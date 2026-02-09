@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
+import { Gallery } from './components/Gallery';
 import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
 import { QuoteModal } from './components/QuoteModal';
@@ -19,7 +20,8 @@ function App() {
       <main>
         <Hero onOpenQuote={openQuote} />
         <Services />
-        
+        <Gallery />
+
         {/* Value Prop Section */}
         <section id="process" className="py-24 bg-brand-yellow text-neutral-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

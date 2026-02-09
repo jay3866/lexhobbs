@@ -22,14 +22,16 @@ const INITIAL_DATA: QuoteFormData = {
 };
 
 const JUNK_TYPES = [
-  "Furniture", "Appliances", "Yard Waste", "Construction Debris", 
-  "Electronics", "General Trash", "Hot Tub", "Mattress"
+  "Furniture", "Appliances", "Yard Waste", "Construction Debris",
+  "Small Demolition", "Electronics", "General Trash", "Hot Tub", "Mattress"
 ];
 
 export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
   const [step, setStep] = useState<QuoteStep>(QuoteStep.JUNK_TYPE);
   const [formData, setFormData] = useState<QuoteFormData>(INITIAL_DATA);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Reset form when modal opens
@@ -41,12 +43,38 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < QuoteStep.REVIEW) {
       setStep(step + 1);
     } else {
-      // Submit logic would go here
-      setStep(QuoteStep.SUCCESS);
+      setIsSubmitting(true);
+      setSubmitError('');
+      try {
+        const res = await fetch('/api/quote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            address: formData.address,
+            junkTypes: formData.junkTypes,
+            volume: formData.volume,
+            aiAnalysis: formData.aiAnalysis || '',
+          }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || 'Failed to submit request.');
+        }
+        setStep(QuoteStep.SUCCESS);
+      } catch (err: any) {
+        console.error('Submit error:', err);
+        setSubmitError(err.message || 'Something went wrong. Please call us directly.');
+        setStep(QuoteStep.SUCCESS);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -356,13 +384,15 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
             ) : (
               <div></div>
             )}
-            <Button 
-              onClick={handleNext} 
-              disabled={step === QuoteStep.JUNK_TYPE && formData.junkTypes.length === 0}
+            <Button
+              onClick={handleNext}
+              disabled={(step === QuoteStep.JUNK_TYPE && formData.junkTypes.length === 0) || isSubmitting}
               className="flex items-center gap-2"
             >
-              {step === QuoteStep.REVIEW ? 'Submit Request' : 'Next Step'}
-              {step !== QuoteStep.REVIEW && <ChevronRight size={18} />}
+              {isSubmitting ? (
+                <><Loader2 className="animate-spin" size={18} /> Sending...</>
+              ) : step === QuoteStep.REVIEW ? 'Submit Request' : 'Next Step'}
+              {!isSubmitting && step !== QuoteStep.REVIEW && <ChevronRight size={18} />}
             </Button>
           </div>
         )}

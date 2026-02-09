@@ -8,9 +8,9 @@ export interface ServiceItem {
 }
 
 export enum QuoteStep {
-  CONTACT_INFO = 0,
-  JUNK_TYPE = 1,
-  VOLUME_ESTIMATE = 2,
+  JUNK_TYPE = 0,
+  VOLUME_ESTIMATE = 1,
+  CONTACT_INFO = 2,
   REVIEW = 3,
   SUCCESS = 4
 }
