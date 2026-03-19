@@ -34,6 +34,7 @@ export const Footer: React.FC = () => {
               <li><a href="#services" className="text-gray-400 hover:text-white transition-colors">Services</a></li>
               <li><a href="#reviews" className="text-gray-400 hover:text-white transition-colors">Reviews</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Get Quote</a></li>
+              <li><a href="#/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
             </ul>
           </div>
 

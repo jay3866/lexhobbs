@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
@@ -6,17 +6,45 @@ import { Gallery } from './components/Gallery';
 import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
 import { QuoteModal } from './components/QuoteModal';
+import { PrivacyPolicy } from './components/PrivacyPolicy';
 
 function App() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState('home');
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (hash === '#/privacy') {
+        setCurrentPage('privacy');
+        window.scrollTo(0, 0);
+      } else {
+        setCurrentPage('home');
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
 
   const openQuote = () => setIsQuoteModalOpen(true);
   const closeQuote = () => setIsQuoteModalOpen(false);
 
+  if (currentPage === 'privacy') {
+    return (
+      <div className="bg-brand-dark min-h-screen text-white font-sans selection:bg-brand-yellow selection:text-brand-dark">
+        <Header onOpenQuote={openQuote} />
+        <PrivacyPolicy />
+        <Footer />
+        <QuoteModal isOpen={isQuoteModalOpen} onClose={closeQuote} />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-brand-dark min-h-screen text-white font-sans selection:bg-brand-yellow selection:text-brand-dark">
       <Header onOpenQuote={openQuote} />
-      
+
       <main>
         <Hero onOpenQuote={openQuote} />
         <Services />
