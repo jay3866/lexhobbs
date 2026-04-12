@@ -1,27 +1,27 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: '.env.local' });
-import express from 'express';
-import cors from 'cors';
 import { Resend } from 'resend';
 
-const app = express();
-app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+interface Env {
+  RESEND_API_KEY: string;
+}
 
-const PORT = process.env.PORT || 3001;
-
-app.post('/api/quote', async (req, res) => {
-  const apiKey = process.env.RESEND_API_KEY;
+export const onRequestPost: PagesFunction<Env> = async (context) => {
+  const apiKey = context.env.RESEND_API_KEY;
   if (!apiKey) {
-    console.error('RESEND_API_KEY is not set. Please set it in your environment.');
-    return res.status(500).json({ error: 'Email service not configured. Set RESEND_API_KEY environment variable.' });
+    return Response.json(
+      { error: 'Email service not configured.' },
+      { status: 500 }
+    );
   }
 
   const resend = new Resend(apiKey);
-  const { name, email, phone, address, junkTypes, volume, aiAnalysis } = req.body;
+  const { name, email, phone, address, junkTypes, volume, aiAnalysis } =
+    await context.request.json();
 
   if (!name || !phone) {
-    return res.status(400).json({ error: 'Name and phone are required.' });
+    return Response.json(
+      { error: 'Name and phone are required.' },
+      { status: 400 }
+    );
   }
 
   const volumePercent = Math.round((volume || 0.25) * 100);
@@ -64,16 +64,12 @@ app.post('/api/quote', async (req, res) => {
 
     if (error) {
       console.error('Resend error:', error);
-      return res.status(500).json({ error: 'Failed to send email.' });
+      return Response.json({ error: 'Failed to send email.' }, { status: 500 });
     }
 
-    return res.json({ success: true, id: data.id });
+    return Response.json({ success: true, id: data?.id });
   } catch (err) {
     console.error('Email send error:', err);
-    return res.status(500).json({ error: 'Failed to send email.' });
+    return Response.json({ error: 'Failed to send email.' }, { status: 500 });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`API server running on http://localhost:${PORT}`);
-});
+};

@@ -362,14 +362,30 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
 
           {step === QuoteStep.SUCCESS && (
             <div className="flex flex-col items-center justify-center text-center py-10 animate-fadeIn">
-              <div className="w-20 h-20 bg-brand-yellow rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(255,215,0,0.3)]">
-                <Check size={40} className="text-neutral-900" />
-              </div>
-              <h3 className="text-3xl font-display font-bold text-white mb-2">You're All Set!</h3>
-              <p className="text-gray-400 max-w-sm mb-8">
-                We've received your request. Lex Hobbs or a team member will contact you shortly at <span className="text-white font-medium">{formData.phone}</span> to confirm details.
-              </p>
-              <Button fullWidth onClick={onClose}>Return to Site</Button>
+              {submitError ? (
+                <>
+                  <div className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(239,68,68,0.3)]">
+                    <AlertCircle size={40} className="text-white" />
+                  </div>
+                  <h3 className="text-3xl font-display font-bold text-white mb-2">Something Went Wrong</h3>
+                  <p className="text-gray-400 max-w-sm mb-4">{submitError}</p>
+                  <p className="text-gray-400 max-w-sm mb-8">
+                    Please call us directly at <span className="text-brand-yellow font-medium">843-499-0950</span> to schedule your pickup.
+                  </p>
+                  <Button fullWidth onClick={() => { setSubmitError(''); setStep(QuoteStep.REVIEW); }}>Try Again</Button>
+                </>
+              ) : (
+                <>
+                  <div className="w-20 h-20 bg-brand-yellow rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(255,215,0,0.3)]">
+                    <Check size={40} className="text-neutral-900" />
+                  </div>
+                  <h3 className="text-3xl font-display font-bold text-white mb-2">You're All Set!</h3>
+                  <p className="text-gray-400 max-w-sm mb-8">
+                    We've received your request. Lex Hobbs or a team member will contact you shortly at <span className="text-white font-medium">{formData.phone}</span> to confirm details.
+                  </p>
+                  <Button fullWidth onClick={onClose}>Return to Site</Button>
+                </>
+              )}
             </div>
           )}
         </div>
