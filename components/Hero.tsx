@@ -1,6 +1,7 @@
 import React from 'react';
-import { ArrowRight, Star, Upload } from 'lucide-react';
+import { ArrowRight, Phone, Star } from 'lucide-react';
 import { Button } from './Button';
+import { CONTACT_INFO } from '../types';
 
 interface HeroProps {
   onOpenQuote: () => void;
@@ -47,11 +48,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenQuote }) => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-            <Button onClick={onOpenQuote} className="h-14 px-8 text-lg w-full sm:w-auto shadow-[0_0_20px_rgba(255,215,0,0.3)]">
+            <a
+              href={`tel:${CONTACT_INFO.phone}`}
+              className="inline-flex items-center justify-center h-14 px-8 w-full sm:w-auto border border-transparent text-lg font-bold uppercase tracking-wider font-display text-brand-dark bg-brand-yellow hover:bg-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-yellow shadow-[0_0_20px_rgba(255,215,0,0.3)]"
+            >
+              <Phone className="mr-2" size={20} /> Call Now {CONTACT_INFO.phone}
+            </a>
+            <Button variant="outline" onClick={onOpenQuote} className="h-14 px-8 text-lg w-full sm:w-auto">
               Get Instant Quote <ArrowRight className="ml-2" />
-            </Button>
-            <Button variant="outline" onClick={onOpenQuote} className="h-14 w-full sm:w-auto border-neutral-600 text-gray-300 hover:text-brand-dark hover:border-brand-yellow">
-              <Upload className="mr-2" size={20} /> Upload Photo
             </Button>
           </div>
         </div>
