@@ -1,0 +1,16 @@
+{
+  // Pins the Cloudflare Workers Builds deploy: static site from ./dist plus the
+  // /api/quote function. Without this file the build deploys the static site only.
+  "name": "hobbsjunkremoval",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "keep_vars": true,
+  "observability": { "enabled": true }
+}
