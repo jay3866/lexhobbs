@@ -27,9 +27,14 @@ export interface QuoteFormData {
   aiAnalysis?: string;
 }
 
+// The Worker injects window.__HOBBS__ = { phone, email } from the admin settings.
+const SITE_SETTINGS: { phone?: string; email?: string; adsConversion?: string } =
+  (typeof window !== 'undefined' && (window as any).__HOBBS__) || {};
+
 export const CONTACT_INFO = {
-  phone: "843-499-0950",
-  email: "Hobbsjrhauling@gmail.com",
+  phone: SITE_SETTINGS.phone || "843-499-0950",
+  email: SITE_SETTINGS.email || "Hobbsjrhauling@gmail.com",
+  adsConversion: SITE_SETTINGS.adsConversion || "",
   location: "Moncks Corner, SC",
   facebook: "Hobbs Junk Removal"
 };

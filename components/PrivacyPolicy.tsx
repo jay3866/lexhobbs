@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACT_INFO } from '../types';
 
 export const PrivacyPolicy: React.FC = () => {
   return (
@@ -25,7 +26,7 @@ export const PrivacyPolicy: React.FC = () => {
           </ul>
           <p>
             <strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at{' '}
-            <a href="mailto:Hobbsjrhauling@gmail.com" className="text-blue-600 hover:underline">Hobbsjrhauling@gmail.com</a>.
+            <a href={`mailto:${CONTACT_INFO.email}`} className="text-blue-600 hover:underline">{CONTACT_INFO.email}</a>.
           </p>
 
           <h2 className="text-2xl font-display font-bold uppercase pt-4">Summary of Key Points</h2>
@@ -121,7 +122,7 @@ export const PrivacyPolicy: React.FC = () => {
           <p><em><strong>In Short:</strong> We do not knowingly collect data from or market to children under 18 years of age.</em></p>
           <p>
             We do not knowingly collect, solicit data from, or market to children under 18 years of age, nor do we knowingly sell such personal information. By using the Services, you represent that you are at least 18 or that you are the parent or guardian of such a minor and consent to such minor dependent&apos;s use of the Services. If we learn that personal information from users less than 18 years of age has been collected, we will deactivate the account and take reasonable measures to promptly delete such data from our records. If you become aware of any data we may have collected from children under age 18, please contact us at{' '}
-            <a href="mailto:Hobbsjrhauling@gmail.com" className="text-blue-600 hover:underline">Hobbsjrhauling@gmail.com</a>.
+            <a href={`mailto:${CONTACT_INFO.email}`} className="text-blue-600 hover:underline">{CONTACT_INFO.email}</a>.
           </p>
 
           {/* Section 7 */}
@@ -138,7 +139,7 @@ export const PrivacyPolicy: React.FC = () => {
           </p>
           <p>
             If you have questions or comments about your privacy rights, you may email us at{' '}
-            <a href="mailto:Hobbsjrhauling@gmail.com" className="text-blue-600 hover:underline">Hobbsjrhauling@gmail.com</a>.
+            <a href={`mailto:${CONTACT_INFO.email}`} className="text-blue-600 hover:underline">{CONTACT_INFO.email}</a>.
           </p>
 
           {/* Section 8 */}
@@ -243,7 +244,7 @@ export const PrivacyPolicy: React.FC = () => {
           {/* Section 11 */}
           <h2 id="contact" className="text-2xl font-display font-bold uppercase pt-4">11. How Can You Contact Us About This Notice?</h2>
           <p>If you have questions or comments about this notice, you may email us at{' '}
-            <a href="mailto:Hobbsjrhauling@gmail.com" className="text-blue-600 hover:underline">Hobbsjrhauling@gmail.com</a>{' '}
+            <a href={`mailto:${CONTACT_INFO.email}`} className="text-blue-600 hover:underline">{CONTACT_INFO.email}</a>{' '}
             or contact us by post at:
           </p>
           <p className="pl-4">
@@ -256,7 +257,7 @@ export const PrivacyPolicy: React.FC = () => {
           <h2 id="request" className="text-2xl font-display font-bold uppercase pt-4">12. How Can You Review, Update, or Delete the Data We Collect from You?</h2>
           <p>
             Based on the applicable laws of your country or state of residence in the US, you may have the right to request access to the personal information we collect from you, details about how we have processed it, correct inaccuracies, or delete your personal information. You may also have the right to withdraw your consent to our processing of your personal information. These rights may be limited in some circumstances by applicable law. To request to review, update, or delete your personal information, please contact us at{' '}
-            <a href="mailto:Hobbsjrhauling@gmail.com" className="text-blue-600 hover:underline">Hobbsjrhauling@gmail.com</a>.
+            <a href={`mailto:${CONTACT_INFO.email}`} className="text-blue-600 hover:underline">{CONTACT_INFO.email}</a>.
           </p>
         </div>
       </div>

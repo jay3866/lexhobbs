@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Upload, Truck, Check, ChevronRight, ChevronLeft, Loader2, Camera, AlertCircle } from 'lucide-react';
 import { Button } from './Button';
-import { QuoteStep, QuoteFormData } from '../types';
+import { CONTACT_INFO, QuoteStep, QuoteFormData } from '../types';
 import { analyzeJunkImage, fileToBase64 } from '../services/geminiService';
+import { reportLead } from '../services/leads';
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -68,6 +69,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
           throw new Error(err.error || 'Failed to submit request.');
         }
         setStep(QuoteStep.SUCCESS);
+        reportLead('quote');
       } catch (err: any) {
         console.error('Submit error:', err);
         setSubmitError(err.message || 'Something went wrong. Please call us directly.');
@@ -138,7 +140,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
             <h2 className="text-2xl font-display font-bold text-white uppercase tracking-wider">
               {step === QuoteStep.SUCCESS ? 'Request Received' : 'Get a Free Estimate'}
             </h2>
-            <p className="text-gray-400 text-sm">Moncks Corner, SC • 843-499-0950</p>
+            <p className="text-gray-400 text-sm">Moncks Corner, SC • {CONTACT_INFO.phone}</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-neutral-800 rounded-full text-gray-400 hover:text-white transition-colors">
             <X size={24} />
@@ -370,7 +372,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
                   <h3 className="text-3xl font-display font-bold text-white mb-2">Something Went Wrong</h3>
                   <p className="text-gray-400 max-w-sm mb-4">{submitError}</p>
                   <p className="text-gray-400 max-w-sm mb-8">
-                    Please call us directly at <span className="text-brand-yellow font-medium">843-499-0950</span> to schedule your pickup.
+                    Please call us directly at <span className="text-brand-yellow font-medium">{CONTACT_INFO.phone}</span> to schedule your pickup.
                   </p>
                   <Button fullWidth onClick={() => { setSubmitError(''); setStep(QuoteStep.REVIEW); }}>Try Again</Button>
                 </>

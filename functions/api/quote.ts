@@ -2,7 +2,12 @@ import { Resend } from 'resend';
 
 interface Env {
   RESEND_API_KEY: string;
+  QUOTE_TO?: string; // set by the Worker from the admin settings
 }
+
+// Customer input goes into an HTML email, so escape it.
+const esc = (v: unknown) =>
+  String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const apiKey = context.env.RESEND_API_KEY;
@@ -14,8 +19,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   }
 
   const resend = new Resend(apiKey);
-  const { name, email, phone, address, junkTypes, volume, aiAnalysis } =
-    await context.request.json();
+  const body: any = await context.request.json().catch(() => ({}));
+  const name = esc(body.name), email = esc(body.email), phone = esc(body.phone), address = esc(body.address);
+  const aiAnalysis = esc(body.aiAnalysis), volume = Number(body.volume) || 0;
+  const junkTypes: string[] = Array.isArray(body.junkTypes) ? body.junkTypes.map(esc) : [];
 
   if (!name || !phone) {
     return Response.json(
@@ -56,10 +63,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   try {
     const { data, error } = await resend.emails.send({
       from: 'Hobbs Website <quotes@hobbsjunkremoval.com>',
-      to: ['Hobbsjrhauling@gmail.com'],
+      to: [context.env.QUOTE_TO || 'Hobbsjrhauling@gmail.com'],
       subject: `New Quote Request from ${name}`,
       html: htmlBody,
-      replyTo: email || undefined,
+      replyTo: body.email || undefined,
     });
 
     if (error) {
